@@ -5,12 +5,22 @@
                 Edit {{ $post->title }}
             </h2>
 
-            <a href="{{ action([\App\Http\Controllers\BlogPostController::class, 'show'], $post->slug) }}"
-               class="bg-blue-400 px-4 py-2 text-white font-bold hover:bg-blue-700 shadow rounded text-sm"
-               target="_blank" rel="noopener noreferrer"
-            >
-                Show
-            </a>
+            <div>
+                <x-button
+                    :href="action([\App\Http\Controllers\BlogPostAdminController::class, 'create'])"
+                    class="mr-2"
+                >
+                    New
+                </x-button>
+
+                <x-button
+                    :href="action([\App\Http\Controllers\BlogPostController::class, 'show'], $post->slug)"
+                    target="_blank" rel="noopener noreferrer"
+                    color="blue"
+                >
+                    Show
+                </x-button>
+            </div>
         </div>
     </x-slot>
 
@@ -19,10 +29,20 @@
             action="{{ action([\App\Http\Controllers\BlogPostAdminController::class, 'update'], $post->slug) }}"
             method="post"
         >
+            @if ($errors->any())
+                <div class="text-red-800">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="grid grid-cols-4 gap-4 gap-x-8">
                 @csrf()
 
-                <div class="grid grid-cols-4 col-span-4 gap-x-8 bg-white shadow rounded p-8">
+                <div class="grid grid-cols-4 col-span-4 gap-x-8 gap-y-4 bg-white shadow rounded p-8">
                     <div class="col-span-2 flex">
                         <label class="font-bold mr-2 py-2" for="title">Title</label>
                         <input class="px-3 py-2 rounded-sm flex-grow" type="text" name="title" id="title" value="{!! $post->title !!}">
@@ -31,6 +51,11 @@
                     <div class="col-span-2 flex">
                         <label class="font-bold mr-2 py-2" for="author">Author</label>
                         <input class="px-3 py-2 rounded-sm flex-grow" type="text" name="author" id="author" value="{!! $post->author !!}">
+                    </div>
+
+                    <div class="col-span-2 flex">
+                        <label class="font-bold mr-2 py-2" for="date">Date</label>
+                        <input class="px-3 py-2 rounded-sm flex-grow" type="date" name="date" id="date" value="{!! $post->date->format('Y-m-d') !!}">
                     </div>
                 </div>
 
@@ -42,7 +67,11 @@
                 </div>
 
                 <div class="col-span-4 flex justify-end">
-                    <button type="submit" class="bg-green-500 px-4 py-2 text-white font-bold hover:bg-green-900 shadow rounded">Save</button>
+                    @if(!$post->isPublished())
+                        <x-button class="mr-2" color="blue" name="publish">Save & Publish</x-button>
+                    @endif
+
+                    <x-button>Save</x-button>
                 </div>
             </div>
         </form>
@@ -71,7 +100,8 @@
                         @csrf()
 
                         <input class="px-3 py-2 mr-2 rounded-sm flex-grow" type="text" name="slug" id="slug" value="{!! $post->slug !!}">
-                        <button type="submit" class="bg-red-500 px-4 py-2 text-white font-bold hover:bg-red-900 shadow rounded">Update slug</button>
+
+                        <x-button color="red">Update Slug</x-button>
                     </form>
                 </div>
 
@@ -93,7 +123,7 @@
                     >
                         @csrf()
 
-                        <button type="submit" onclick="alert('Are you sure?')" class="bg-red-500 px-4 py-2 text-white font-bold hover:bg-red-900 shadow rounded">Delete Post</button>
+                        <x-button color="red">Delete Post</x-button>
                     </form>
                 </div>
             </div>

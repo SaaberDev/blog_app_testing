@@ -2,14 +2,15 @@
 
 namespace Database\Seeders;
 
-use App\Models\BlogPost;
+use App\Models\User;
+use Database\Factories\BlogPostFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-         \App\Models\User::factory(1)->create([
+         User::factory(1)->create([
              'name' => 'Brent',
              'email' => 'brent@spatie.be'
          ]);
@@ -21,21 +22,16 @@ class DatabaseSeeder extends Seeder
                 continue;
             }
 
-            $body = file_get_contents(__DIR__ . "/blogPosts/{$file}");
-
             preg_match('/[\d]{4}-[\d]{2}-[\d]{2}/', $file, $matches);
 
             $date = $matches[0];
 
-            $title = ucfirst(str_replace(["{$date}-", '-', '.md'], ['', ' ', ''], $file));
-
-            BlogPost::create([
+            BlogPostFactory::new([
                 'author' => 'Brent',
-                'title' => $title,
-                'body' => $body,
+                'title' => ucfirst(str_replace(["{$date}-", '-', '.md'], ['', ' ', ''], $file)),
+                'body' => file_get_contents(__DIR__ . "/blogPosts/{$file}"),
                 'date' => $date,
-                'likes' => rand(10, 1000),
-            ]);
+            ])->create();
         }
     }
 }

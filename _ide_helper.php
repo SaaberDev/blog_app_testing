@@ -12144,6 +12144,17 @@
         {
                         return \Illuminate\Routing\Router::enum($key, $class);
         }
+                    /**
+         * 
+         *
+         * @see \Spatie\Feed\FeedServiceProvider::registerRouteMacro()
+         * @param mixed $baseUrl
+         * @static 
+         */ 
+        public static function feeds($baseUrl = '')
+        {
+                        return \Illuminate\Routing\Router::feeds($baseUrl);
+        }
          
     }
             /**
@@ -16538,6 +16549,17 @@
         public static function enum($key, $class)
         {
                         return \Illuminate\Routing\Router::enum($key, $class);
+        }
+                    /**
+         * 
+         *
+         * @see \Spatie\Feed\FeedServiceProvider::registerRouteMacro()
+         * @param mixed $baseUrl
+         * @static 
+         */ 
+        public static function feeds($baseUrl = '')
+        {
+                        return \Illuminate\Routing\Router::feeds($baseUrl);
         }
          
     }

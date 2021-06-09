@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\BlogPost;
+use App\Models\Enums\BlogPostStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BlogPostFactory extends Factory
@@ -13,9 +14,14 @@ class BlogPostFactory extends Factory
     {
         return [
             'title' => $this->faker->words($this->faker->numberBetween(1, 5), true),
-            'date' => $this->faker->date(),
+            'date' => $this->date ?? $this->faker->date(),
             'author' => 'Brent',
-            'body' => $this->markdown(),
+            'body' => $body ?? $this->markdown(),
+            'status' => $this->faker->randomElement([
+                BlogPostStatus::DRAFT()->value,
+                BlogPostStatus::PUBLISHED()->value,
+            ]),
+            'likes' => $this->faker->numberBetween(10, 1000)
         ];
     }
 

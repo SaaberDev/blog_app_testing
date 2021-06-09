@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePostRequest extends FormRequest
+class CreateBlogPostRequest extends FormRequest
 {
     public function rules(): array
     {
@@ -12,6 +12,7 @@ class UpdatePostRequest extends FormRequest
             'title' => ['string', 'required'],
             'author' => ['string', 'required'],
             'body' => ['string', 'required'],
+            'date' => ['date_format:Y-m-d', 'required'],
         ];
     }
 }

@@ -9,87 +9,62 @@
 
     <div>
         @if($pending->isNotEmpty())
-            <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <div class="grid">
-                    <div class="
-                        px-4
-                        mb-2
-                        font-bold
-                        grid grid-cols-6
-                    ">
-                        <div class="col-span-2">Title</div>
-                        <div class="col-span-2">URL</div>
-                        <div class="col-span-1 pl-2">Date</div>
-                        <div class="text-right col-span-1"></div>
-                    </div>
+            <x-table>
+                <x-row header cols="6">
+                    <x-column colspan="2">Title</x-column>
+                    <x-column colspan="2">URL</x-column>
+                    <x-column colspan="1">Date</x-column>
+                    <x-column colspan="1"></x-column>
+                </x-row>
 
-                    @foreach($pending as $post)
-                        <div class="
-                            p-4
-                            bg-blue-50
-                            shadow
-                            mb-2
-                            rounded
-                            grid grid-cols-6
-                        ">
-                            <div class="col-span-2">{{ $post->title }}</div>
-                            <div class="col-span-2">
-                                <a href="{{ $post->url }}" target="_blank" rel="noopener noreferrer" class="underline hover:no-underline">
-                                    {{ $post->url }}
-                                </a>
-                            </div>
-                            <div class="col-span-1 pl-2">{{ $post->date->format('Y-m-d') }}</div>
-                            <div class="text-right col-span-1">
-                                <div class="flex items-center justify-end">
-                                    <a href="{{ action([\App\Http\Controllers\ExternalPostAdminController::class, 'approve'], $post) }}"
-                                       class="bg-green-500 px-4 py-2 text-white font-bold hover:bg-green-900 shadow rounded text-sm"
-                                    >
-                                        Approve
-                                    </a>
-                                    <a href="{{ action([\App\Http\Controllers\ExternalPostAdminController::class, 'remove'], $post) }}"
-                                       class="ml-2 bg-red-500 px-4 py-2 text-white font-bold hover:bg-red-900 shadow rounded text-sm"
-                                    >
-                                        Delete
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        @endif
-
-        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            <div>
-                <div class="
-                    px-4
-                    mb-2
-                    font-bold
-                    grid grid-cols-6
-                ">
-                    <div class="col-span-3">Title</div>
-                    <div class="col-span-2">URL</div>
-                    <div class="col-span-1 text-right">Date</div>
-                </div>
-                @foreach($active as $post)
-                    <div class="
-                        p-4
-                        bg-white
-                        shadow
-                        mb-2
-                        rounded
-                        grid grid-cols-6
-                    ">
-                        <div class="col-span-3">{{ $post->title }}</div>
-                        <div class="col-span-2">
+                @foreach($pending as $post)
+                    <x-row colums="6" color="blue">
+                        <x-column colspan="2">{{ $post->title }}</x-column>
+                        <x-column colspan="2">
                             <a href="{{ $post->url }}" target="_blank" rel="noopener noreferrer" class="underline hover:no-underline">
                                 {{ $post->url }}
                             </a>
-                        </div>
-                        <div class="text-right col-span-1">{{ $post->date->format('Y-m-d') }}</div>
-                    </div>
+                        </x-column>
+                        <x-column colspan="1">{{ $post->date->format('Y-m-d') }}</x-column>
+                        <x-column colspan="1" right>
+                            <x-button
+                                :href="action([\App\Http\Controllers\ExternalPostAdminController::class, 'approve'], $post)"
+                            >
+                                Approve
+                            </x-button>
+                            <x-button
+                                :href="action([\App\Http\Controllers\ExternalPostAdminController::class, 'remove'], $post)"
+                                color="red"
+                                class="ml-2"
+                            >
+                                Delete
+                            </x-button>
+                        </x-column>
+                    </x-row>
                 @endforeach
-            </div>
-        </div>
+            </x-table>
+        @endif
+
+        <x-table>
+            <x-row cols="6" header>
+                <x-column colspan="3">Title</x-column>
+                <x-column colspan="2">URL</x-column>
+                <x-column colspan="1" right>Date</x-column>
+            </x-row>
+
+            @foreach($active as $post)
+                <x-row cols="6">
+                    <x-column colspan="3">{{ $post->title }}</x-column>
+                    <x-column colspan="2">
+                        <a href="{{ $post->url }}" target="_blank" rel="noopener noreferrer" class="underline hover:no-underline">
+                            {{ $post->url }}
+                        </a>
+                    </x-column>
+                    <x-column colspan="1" right>{{ $post->date->format('Y-m-d') }}</x-column>
+                </x-row>
+            @endforeach
+        </x-table>
+
     </div>
+
 </x-app-layout>

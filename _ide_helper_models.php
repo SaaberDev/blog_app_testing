@@ -21,6 +21,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon $date
  * @property string $body
  * @property int $likes
+ * @property \App\Models\Enums\BlogPostStatus $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\BlogPostFactory factory(...$parameters)
@@ -33,11 +34,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereLikes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BlogPost wherePublished()
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereUpdatedAt($value)
  */
-	class BlogPost extends \Eloquent {}
+	class BlogPost extends \Eloquent implements \Spatie\Feed\Feedable {}
 }
 
 namespace App\Models{

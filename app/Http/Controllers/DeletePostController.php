@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdatePostSlugRequest;
 use App\Models\BlogPost;
 
 class DeletePostController
 {
-    public function __invoke(BlogPost $post, UpdatePostSlugRequest $request)
+    public function __invoke(BlogPost $post)
     {
-        dd('hi');
         $post->delete();
 
+        error("Post deleted");
 
-        return redirect()->action([UpdatePostSlugController::class, 'index']);
+        return redirect()->action([BlogPostAdminController::class, 'index']);
     }
 }

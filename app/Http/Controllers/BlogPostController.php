@@ -10,7 +10,10 @@ class BlogPostController
 {
     public function index()
     {
-        $posts = BlogPost::query()->orderByDesc('date')->paginate(100);
+        $posts = BlogPost::query()
+            ->orderByDesc('date')
+            ->wherePublished()
+            ->paginate(15);
 
         $recents = ExternalPost::mostRecent()->limit(6)->get();
 

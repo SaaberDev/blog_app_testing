@@ -8,6 +8,7 @@ use App\Http\Controllers\RedirectAdminController;
 use App\Http\Controllers\UpdatePostSlugController;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\DeletePostController;
+use App\Http\Middleware\FormErrorMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,7 +31,7 @@ Route::get('/blog/{post}', [BlogPostController::class, 'show']);
 
 Route::post('/suggest', ExternalPostSuggestionController::class);
 
-Route::middleware(['auth:sanctum', 'verified'])
+Route::middleware(['auth:sanctum', 'verified', FormErrorMiddleware::class])
     ->prefix('/admin')
     ->group(function () {
         Route::get('/', function () {
@@ -42,6 +43,7 @@ Route::middleware(['auth:sanctum', 'verified'])
         Route::post('/blog/new', [BlogPostAdminController::class, 'store']);
         Route::get('/blog/{post}/edit', [BlogPostAdminController::class, 'edit']);
         Route::post('/blog/{post}/edit', [BlogPostAdminController::class, 'update']);
+        Route::post('/blog/{post}/publish', [BlogPostAdminController::class, 'publish']);
         Route::post('/blog/{post}/slug', UpdatePostSlugController::class);
         Route::post('/blog/{post}/delete', DeletePostController::class);
 

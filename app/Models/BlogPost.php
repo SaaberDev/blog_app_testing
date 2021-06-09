@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Http\Controllers\BlogPostController;
+use App\Models\Enums\BlogPostStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -16,6 +18,7 @@ class BlogPost extends Model implements Feedable
     protected $casts = [
         'date' => 'datetime',
         'likes' => 'integer',
+        'status' => BlogPostStatus::class,
     ];
 
     protected $guarded = [];
@@ -29,6 +32,20 @@ class BlogPost extends Model implements Feedable
                 $post->slug = Str::slug($post->title);
             }
         });
+    }
+
+    public function publish(): self
+    {
+        $this->update([
+            'status' => BlogPostStatus::PUBLISHED(),
+        ]);
+
+        return $this;
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->status->equals(BlogPostStatus::PUBLISHED());
     }
 
     public function isLikedBy(?string $likerUuid): bool
@@ -69,5 +86,10 @@ class BlogPost extends Model implements Feedable
     public static function getFeedItems()
     {
         return self::all();
+    }
+
+    public function scopeWherePublished(Builder $builder): void
+    {
+        $builder->where('status', BlogPostStatus::PUBLISHED());
     }
 }
