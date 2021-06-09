@@ -16,7 +16,7 @@ class BlogPostFactory extends Factory
             'title' => $this->faker->words($this->faker->numberBetween(1, 5), true),
             'date' => $this->date ?? $this->faker->date(),
             'author' => 'Brent',
-            'content_path' => '',
+            'body' => $body ?? $this->markdown(),
             'status' => $this->faker->randomElement([
                 BlogPostStatus::DRAFT()->value,
                 BlogPostStatus::PUBLISHED()->value,

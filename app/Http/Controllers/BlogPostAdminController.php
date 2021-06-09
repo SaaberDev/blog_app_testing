@@ -32,15 +32,11 @@ class BlogPostAdminController
         BlogPost $post,
         UpdateBlogPostRequest $request
     ) {
-        $validated = collect($request->validated());
+        $validated = collect($request->validated())->except('publish');
 
-        $post->update($validated->except(['publish', 'body'])->toArray());
+        $post->update($validated->toArray());
 
         success("Post was saved");
-
-        $body = $validated['body'];
-
-        $post->saveBody($body);
 
         if ($request->has('publish')) {
             $post->publish();
@@ -76,11 +72,7 @@ class BlogPostAdminController
 
     public function store(CreateBlogPostRequest $request)
     {
-        $validated = collect($request->validated());
-
-        $post = BlogPost::create($validated->except('body')->toArray());
-
-        $post->saveBody($validated['body']);
+        $post = BlogPost::create($request->validated());
 
         success("Post created");
 
