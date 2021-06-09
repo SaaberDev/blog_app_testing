@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
              'email' => 'brent@spatie.be'
          ]);
 
-        $files = scandir(__DIR__ . '/blogPosts');
+        $files = scandir(resource_path('content'));
 
         foreach ($files as $file) {
             if (in_array($file, ['.', '..'])) {
@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             BlogPostFactory::new([
                 'author' => 'Brent',
                 'title' => ucfirst(str_replace(["{$date}-", '-', '.md'], ['', ' ', ''], $file)),
-                'body' => file_get_contents(__DIR__ . "/blogPosts/{$file}"),
+                'content_path' => "content/{$file}",
                 'date' => $date,
             ])->create();
         }

@@ -19,17 +19,18 @@ namespace App\Models{
  * @property string $slug
  * @property string $author
  * @property \Illuminate\Support\Carbon $date
- * @property string $body
+ * @property string $content_path
  * @property int $likes
  * @property \App\Models\Enums\BlogPostStatus $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $body
  * @method static \Database\Factories\BlogPostFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost query()
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereAuthor($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereContentPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereId($value)

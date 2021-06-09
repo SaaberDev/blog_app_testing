@@ -16,7 +16,7 @@ class CreateBlogPostsTable extends Migration
             $table->string('slug');
             $table->string('author');
             $table->timestamp('date');
-            $table->longText('body');
+            $table->string('content_path');
             $table->integer('likes')->default(0);
             $table->string('status')->default(BlogPostStatus::DRAFT()->value);
 

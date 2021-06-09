@@ -31,6 +31,10 @@ class BlogPost extends Model implements Feedable
             if (! $post->slug) {
                 $post->slug = Str::slug($post->title);
             }
+
+            if (! $post->content_path) {
+                $post->content_path = "content/{$post->date->format('Y-m-d')}-{$post->slug}.md";
+            }
         });
     }
 
@@ -91,5 +95,21 @@ class BlogPost extends Model implements Feedable
     public function scopeWherePublished(Builder $builder): void
     {
         $builder->where('status', BlogPostStatus::PUBLISHED());
+    }
+
+    public function getBodyAttribute(): ?string
+    {
+        if (! $this->content_path) {
+            return null;
+        }
+
+        return file_get_contents(resource_path($this->content_path));
+    }
+
+    public function saveBody(string $body): self
+    {
+        file_put_contents(resource_path($this->content_path), $body);
+
+        return $this;
     }
 }

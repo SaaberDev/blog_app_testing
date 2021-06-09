@@ -9,11 +9,22 @@
                 {{ __('Blog') }}
             </h2>
 
-            <x-button
-                :href="action([\App\Http\Controllers\BlogPostAdminController::class, 'create'])"
-            >
-                New
-            </x-button>
+            <div>
+                <x-button
+                    :href="action([\App\Http\Controllers\BlogPostAdminController::class, 'create'])"
+                    class="mr-2"
+                >
+                    New
+                </x-button>
+
+                <x-button
+                    :href="action([\App\Http\Controllers\BlogPostController::class, 'index'])"
+                    target="_blank" rel="noopener noreferrer"
+                    color="blue"
+                >
+                    Show
+                </x-button>
+            </div>
         </div>
     </x-slot>
 
