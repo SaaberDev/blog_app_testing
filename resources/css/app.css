@@ -1,0 +1,42 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import "code.css";
+
+.heading-level-1,
+.heading-level-2,
+.heading-level-3,
+.heading-level-4 {
+    position: relative;
+}
+
+.heading-level-1:before,
+.heading-level-2:before,
+.heading-level-3:before,
+.heading-level-4:before {
+    position: absolute;
+    display: inline-block;
+    font-size: .8em;
+}
+
+.heading-level-1:before {
+    content: "#";
+    margin-left: -25px;
+    line-height: 1.4em;
+}
+
+.heading-level-2:before {
+    content: "##";
+    margin-left: -30px;
+    line-height: 1.8em;
+}
+
+.heading-level-3:before {
+    content: "###";
+    margin-left: -35px;
+    line-height: 2em;
+}
+
+a:hover {
+    text-decoration: none !important;
+}
