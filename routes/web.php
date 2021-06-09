@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::feeds();
+
 Route::get('/', [BlogPostController::class, 'index']);
 Route::get('/blog/{post}.json', [JsonPostController::class, 'show']);
 Route::get('/blog.json', [JsonPostController::class, 'index']);

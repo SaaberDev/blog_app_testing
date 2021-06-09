@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\BlogPostController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Spatie\Feed\Feedable;
+use Spatie\Feed\FeedItem;
 
-class BlogPost extends Model
+class BlogPost extends Model implements Feedable
 {
     use HasFactory;
 
@@ -50,5 +53,21 @@ class BlogPost extends Model
         $this->likes += 1;
 
         $this->save();
+    }
+
+    public function toFeedItem(): FeedItem
+    {
+        return FeedItem::create()
+            ->id($this->id)
+            ->title($this->title)
+            ->updated($this->updated_at)
+            ->link(action([BlogPostController::class, 'show'], $this->slug))
+            ->summary($this->title)
+            ->authorName($this->author);
+    }
+
+    public static function getFeedItems()
+    {
+        return self::all();
     }
 }
