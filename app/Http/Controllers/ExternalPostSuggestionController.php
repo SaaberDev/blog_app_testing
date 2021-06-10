@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ExternalPostSuggestionRequest;
+use App\Mail\ExternalPostSuggestedMail;
 use App\Models\Enums\ExternalPostStatus;
 use App\Models\ExternalPost;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 class ExternalPostSuggestionController
 {
@@ -12,13 +15,19 @@ class ExternalPostSuggestionController
     {
         $validated = $request->validated();
 
+        $title = $validated['title'];
+
+        $url = $validated['url'];
+
         ExternalPost::create([
-            'title' => $validated['title'],
-            'url' => $validated['url'],
+            'title' => $title,
+            'url' => $url,
             'domain' => str_replace('www.', '', parse_url($validated['url'], PHP_URL_HOST)),
             'date' => now(),
             'status' => ExternalPostStatus::PENDING(),
         ]);
+
+        Mail::to(User::first())->send(new ExternalPostSuggestedMail($title, $url));
 
         return redirect()->action([BlogPostController::class, 'index']);
     }

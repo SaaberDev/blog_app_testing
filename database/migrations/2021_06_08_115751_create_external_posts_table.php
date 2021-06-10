@@ -19,8 +19,6 @@ class CreateExternalPostsTable extends Migration
             $table->string('status')->default(ExternalPostStatus::PENDING()->value);
 
             $table->timestamps();
-
-            $table->unique(['url']);
         });
     }
 }
