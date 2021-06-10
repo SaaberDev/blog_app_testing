@@ -39,6 +39,12 @@ jobs:
                     extensions: ${{ env.extensions }}
                     coverage: none
 
+            -   name: Create database
+                run: |
+                    sudo /etc/init.d/mysql start
+                    mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root -proot mysql
+                    mysql  -u root -proot -e 'CREATE DATABASE IF NOT EXISTS testing_laravel;'
+
             -   name: Cache composer dependencies
                 uses: actions/cache@v2
                 with:
@@ -57,3 +63,5 @@ jobs:
 
             -   name: Run PHPUnit
                 run: ./vendor/bin/phpunit
+                env:
+                    DB_PASSWORD: root
