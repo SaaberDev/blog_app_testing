@@ -8,6 +8,7 @@ use App\Http\Controllers\RedirectAdminController;
 use App\Http\Controllers\UpdatePostSlugController;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\DeletePostController;
+use App\Http\Controllers\UploadController;
 use App\Http\Middleware\FormErrorMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,8 @@ Route::get('/blog.json', [JsonPostController::class, 'index']);
 Route::get('/blog/{post}', [BlogPostController::class, 'show']);
 
 Route::post('/suggest', ExternalPostSuggestionController::class);
+
+Route::post('/upload', UploadController::class);
 
 Route::middleware(['auth:sanctum', 'verified', FormErrorMiddleware::class])
     ->prefix('/admin')

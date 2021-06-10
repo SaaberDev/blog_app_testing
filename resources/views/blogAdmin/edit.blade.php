@@ -62,7 +62,22 @@
                 <div class="grid grid-cols-4 col-span-4 gap-x-8 bg-white shadow rounded p-8">
                     <div class="col-span-4 flex">
                         <label class="font-bold mr-2 py-2" for="body">Body</label>
+
                         <textarea class="px-3 py-2 rounded-sm flex-grow" name="body" id="body" rows="20">{{ $post->body }}</textarea>
+
+                        <div class="
+                            dropzone
+                            fixed bg-blue-100
+                            shadow-lg
+                            top-0 left-0 right-0 bottom-0 border-dashed border-4 border-blue-700
+                            flex items-center justify-center
+                            opacity-90
+                            rounded
+                            m-4
+                            hidden
+                        ">
+                            <span class="text-2xl text-blue-800 font-mono font-bold">drop</span>
+                        </div>
                     </div>
                 </div>
 
@@ -130,4 +145,73 @@
         </div>
     </div>
 
+    <script>
+        const editor = document.querySelector('#body');
+        const body = document.querySelector('body');
+        const dropzone = document.querySelector('.dropzone');
+
+        const stopEvent = function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+        }
+
+        const showDropzone = function() {
+            dropzone.classList.remove('hidden');
+        }
+
+        const hideDropzone = function() {
+            dropzone.classList.add('hidden');
+        }
+
+        body.addEventListener('dragenter', function (e) {
+            stopEvent(e);
+
+            showDropzone();
+        });
+
+        body.addEventListener('dragover', function (e) {
+            stopEvent(e);
+        });
+
+        body.addEventListener('drop', function (e) {
+            stopEvent(e);
+
+            insertAtCursor(editor, '[…]');
+
+            uploadFile(e.dataTransfer.files[0]);
+        });
+
+        function uploadFile(file) {
+            let url = '{{ action(\App\Http\Controllers\UploadController::class) }}';
+
+            let xhr = new XMLHttpRequest();
+
+            xhr.open('POST', url, true);
+
+            xhr.addEventListener('readystatechange', function (e) {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    editor.value = editor.value.replace('[…]', '![](' + xhr.responseText + ')');
+
+                    hideDropzone();
+                } else if (xhr.readyState === 4 && xhr.status !== 200) {
+                    hideDropzone();
+                }
+            });
+
+            let formData = new FormData();
+
+            formData.append('file', file);
+
+            xhr.send(formData);
+        }
+
+        function insertAtCursor(textArea, value) {
+            const startPos = textArea.selectionStart;
+            const endPos = textArea.selectionEnd;
+
+            textArea.value = textArea.value.substring(0, startPos)
+                + value
+                + textArea.value.substring(endPos, textArea.value.length);
+        }
+    </script>
 </x-app-layout>
