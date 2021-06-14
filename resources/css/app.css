@@ -1,42 +1,35 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 @import "code.css";
 
-.heading-level-1,
-.heading-level-2,
-.heading-level-3,
-.heading-level-4 {
+.toc-entry {
+    display: grid;
+    grid-template-columns: auto max-content;
+    grid-template-areas: "chapter page";
+    align-items: end;
+    gap: 0 0.5ch;
+}
+
+.toc-chapter {
+    grid-area: chapter;
     position: relative;
+    overflow: hidden;
 }
 
-.heading-level-1:before,
-.heading-level-2:before,
-.heading-level-3:before,
-.heading-level-4:before {
+.toc-chapter::after {
     position: absolute;
-    display: inline-block;
-    font-size: .8em;
+    padding-left: 0.5ch;
+    content: " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "
+        ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "
+        ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ";
+    text-align: right;
 }
 
-.heading-level-1:before {
-    content: "#";
-    margin-left: -25px;
-    line-height: 1.4em;
+.toc-entry:hover .toc-chapter{
+    @apply underline
 }
 
-.heading-level-2:before {
-    content: "##";
-    margin-left: -30px;
-    line-height: 1.8em;
-}
-
-.heading-level-3:before {
-    content: "###";
-    margin-left: -35px;
-    line-height: 2em;
-}
-
-a:hover {
-    text-decoration: none !important;
+.toc-page {
+    grid-area: page;
 }
