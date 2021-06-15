@@ -1,6 +1,6 @@
 <div class="
-    col-span-{{ $colspan }}
     flex items-center
+    {{ $class }}
     {{ $right ? 'justify-end' : '' }}
     {{ $center ? 'justify-center' : '' }}"
 >

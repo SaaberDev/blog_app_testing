@@ -5,51 +5,48 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-display font-semibold text-xl text-ink leading-tight">
                 {{ __('Blog') }}
             </h2>
 
-            <x-button
+            <x-button-link
                 :href="action([\App\Http\Controllers\BlogPostAdminController::class, 'create'])"
             >
                 New
-            </x-button>
+            </x-button-link>
         </div>
     </x-slot>
 
+    @if ($errors->any())
+        <div class="text-red-600">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <x-table>
-        @if ($errors->any())
-            <div class="text-red-800">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
 
         <x-row cols="6" header>
-            <x-column colspan="2">Title</x-column>
+            <x-column class="col-span-3">Title</x-column>
+            <x-column>Author</x-column>
             <x-column right>Date</x-column>
-            <x-column right>Author</x-column>
-            <x-column right>Status</x-column>
-            <x-column right></x-column>
+            <x-column></x-column>
         </x-row>
 
         @foreach($posts as $post)
             <x-row cols="6">
-                <x-column colspan="2">{{ $post->title }}</x-column>
-                <x-column right>{{ $post->date->format('Y-m-d') }}</x-column>
-                <x-column right>{{ $post->author }}</x-column>
-                <x-column right>
-                        <span class="text-{{ $post->status->color() }}-500 font-bold">
-                            {{ $post->status->label() }}
-                        </span>
+                <x-column class="col-span-3 font-semibold flex items-center">
+                    <span title="{{ $post->status->label() }}" class="mr-4 flex-none w-2 h-2 rounded-full {{ $post->status->color() }}">
+                    </span>
+                    {{ $post->title }}
                 </x-column>
-                <x-column right>
-                    <div class="flex justify-between">
-
-                    </div>
+                <x-column>{{ $post->author }}</x-column>
+                <x-column right>{{ $post->date->format('Y-m-d') }}</x-column>
+                <x-column right class="space-x-2">
+                    
                     @if(! $post->isPublished())
                         <form
                             action="{{ action([\App\Http\Controllers\BlogPostAdminController::class, 'publish'], $post->slug) }}"
@@ -57,14 +54,12 @@
                         >
                             @csrf()
 
-                            <x-button class="mr-2" color="blue" name="publish" class="text-sm" color="green">Publish</x-button>
+                            <x-button name="publish">Publish</x-button>
                         </form>
                     @endif
 
-                    <x-button
+                    <x-button-link
                         :href="action([\App\Http\Controllers\BlogPostAdminController::class, 'edit'], $post->slug)"
-                        color="blue"
-                        class="ml-2"
                     >
                         Edit
                     </x-button>
