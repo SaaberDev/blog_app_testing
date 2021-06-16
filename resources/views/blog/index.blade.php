@@ -72,7 +72,7 @@
                             <input type="text" name="url" class="border-0 focus:bg-white focus:ring-ink">
 
                             <div class="col-start-2">
-                                <button type="submit" class="bg-ink hover:bg-opacity-80 text-paper px-4 py-2 font-medium focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-ink">Suggest!</button>
+                                <x-button>Suggest!</x-button>
                             </div>
                         </form>
                     </div>

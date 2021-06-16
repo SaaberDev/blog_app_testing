@@ -1,5 +1,5 @@
 <div class="
-    grid grid-cols-{{ $cols }} gap-6
+    grid {{ $class }} gap-6
 
     @if($header)
         sticky top-0
@@ -11,8 +11,6 @@
         bg-white
         border-b-2 border-gray-100
     @endif
-
-    bg-{{ $color }}-100
 ">
     {{ $slot }}
 </div>

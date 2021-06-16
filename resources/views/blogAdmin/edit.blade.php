@@ -16,7 +16,6 @@
                 <x-button
                     :href="action([\App\Http\Controllers\BlogPostController::class, 'show'], $post->slug)"
                     target="_blank" rel="noopener noreferrer"
-                    color="blue"
                 >
                     Show
                 </x-button>
@@ -30,7 +29,7 @@
             method="post"
         >
             @if ($errors->any())
-                <div class="text-red-800">
+                <div class="text-red-600">
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -39,109 +38,106 @@
                 </div>
             @endif
 
-            <div class="grid grid-cols-4 gap-4 gap-x-8">
-                @csrf()
+            @csrf()
+            
+            <x-fieldset>
+                <x-label for="title">Title</x-label>
+                <x-input type="text" name="title" id="title" value="{!! $post->title !!}"/>
 
-                <div class="grid grid-cols-4 col-span-4 gap-x-8 gap-y-4 bg-white shadow rounded p-8">
-                    <div class="col-span-2 flex">
-                        <label class="font-bold mr-2 py-2" for="title">Title</label>
-                        <input class="px-3 py-2 rounded-sm flex-grow" type="text" name="title" id="title" value="{!! $post->title !!}">
-                    </div>
+                <x-label for="author">Author</x-label>
+                <x-input type="text" name="author" id="author" value="{!! $post->author !!}"/>
 
-                    <div class="col-span-2 flex">
-                        <label class="font-bold mr-2 py-2" for="author">Author</label>
-                        <input class="px-3 py-2 rounded-sm flex-grow" type="text" name="author" id="author" value="{!! $post->author !!}">
-                    </div>
+                <x-label for="date">Date</x-label>
+                <x-input type="date" name="date" id="date" value="{!! $post->date->format('Y-m-d') !!}"/>
 
-                    <div class="col-span-2 flex">
-                        <label class="font-bold mr-2 py-2" for="date">Date</label>
-                        <input class="px-3 py-2 rounded-sm flex-grow" type="date" name="date" id="date" value="{!! $post->date->format('Y-m-d') !!}">
-                    </div>
+                
+                <x-label class="col-start-1" for="body">Body</x-label>
+                <x-textarea class="col-span-3" name="body" id="body" rows="20">{{ $post->body }}</x-textarea>
+
+                <div class="
+                    dropzone
+                    fixed bg-blue-100
+                    shadow-lg
+                    top-0 left-0 right-0 bottom-0 border-dashed border-4 border-blue-700
+                    flex items-center justify-center
+                    opacity-90
+                    rounded
+                    m-4
+                    hidden
+                ">
+                    <x-label class="text-2xl text-blue-800">Drop</x-label>
                 </div>
+                  
 
-                <div class="grid grid-cols-4 col-span-4 gap-x-8 bg-white shadow rounded p-8">
-                    <div class="col-span-4 flex">
-                        <label class="font-bold mr-2 py-2" for="body">Body</label>
-
-                        <textarea class="px-3 py-2 rounded-sm flex-grow" name="body" id="body" rows="20">{{ $post->body }}</textarea>
-
-                        <div class="
-                            dropzone
-                            fixed bg-blue-100
-                            shadow-lg
-                            top-0 left-0 right-0 bottom-0 border-dashed border-4 border-blue-700
-                            flex items-center justify-center
-                            opacity-90
-                            rounded
-                            m-4
-                            hidden
-                        ">
-                            <span class="text-2xl text-blue-800 font-mono font-bold">drop</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-span-4 flex justify-end">
+                <div class="col-start-4 justify-self-end space-x-4">
                     @if(!$post->isPublished())
-                        <x-button class="mr-2" color="blue" name="publish">Save & Publish</x-button>
+                        <x-button name="publish">Save & Publish</x-button>
                     @endif
 
                     <x-button>Save</x-button>
                 </div>
-            </div>
+            </x-fieldset>
         </form>
 
-        <div class="grid grid-cols-4 gap-4 gap-x-8 mt-8">
-            @csrf()
+        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+            <div class="md:grid md:grid-cols-3 md:gap-6">
+                <x-jet-section-title>
+                    <x-slot name="title">Slug</x-slot>
+                    <x-slot name="description">
+                        Changing a post's slug might have <strong>unforeseen side-effects</strong> when already published.
+                        We'll automatically add a redirect from the old to new slug, in order to prevent any issues.</x-slot>
+                </x-jet-section-title>
 
-            <div class="grid grid-cols-2 col-span-4 gap-16 gap-x-8 bg-white shadow rounded p-8 border-red-300 border-2 bg-red-200">
-                <div>
-                    <h2 class="font-bold text-xl text-red-900">
-                        Slug
-                    </h2>
-
-                    <p>
-                        Changing a post's slug might have unforeseen side-effects when already published.
-                        We'll automatically add a redirect from the old to new slug, in order to prevent any issues.
-                    </p>
-                </div>
-
-                <div class="flex items-center justify-end">
+                <div class="mt-5 md:mt-0 md:col-span-2 shadow">
                     <form
-                        action="{{ action(\App\Http\Controllers\UpdatePostSlugController::class, $post->slug) }}"
-                        method="post"
-                        class="flex flex-grow"
-                    >
-                        @csrf()
+                            action="{{ action(\App\Http\Controllers\UpdatePostSlugController::class, $post->slug) }}"
+                            method="post"
+                        >
+                            @csrf()
+                        <div class="px-4 py-5 bg-white sm:p-6 sm:rounded-tl-md sm:rounded-tr-md">
+                            <div class="grid grid-cols-6 gap-6">
+                                <div class="col-span-6 sm:col-span-4">
+                                    <x-label>Slug</x-label>
+                                    <x-input class="block w-full" type="text" name="slug" id="slug" value="{!! $post->slug !!}"/>
+                                </div>
+                            </div>
+                        </div>
 
-                        <input class="px-3 py-2 mr-2 rounded-sm flex-grow" type="text" name="slug" id="slug" value="{!! $post->slug !!}">
-
-                        <x-button color="red">Update Slug</x-button>
+                        <div class="flex items-center justify-end px-4 py-3 bg-ink bg-opacity-5 text-right sm:px-6 sm:rounded-bl-md sm:rounded-br-md">
+                            <x-jet-danger-button>Update Slug</x-button>
+                        </div>
                     </form>
                 </div>
+            </div>
 
-                <div>
-                    <h2 class="font-bold text-xl text-red-900">
-                        Delete
-                    </h2>
+            <x-jet-section-border />
 
-                    <p>
-                        Think twice before deleting a post, this cannot be undone!
-                    </p>
-                </div>
+            <x-jet-action-section>
+                <x-slot name="title">
+                    Delete Post
+                </x-slot>
 
-                <div class="flex items-center justify-end">
+                <x-slot name="description">
+                    Permanently delete this post.
+                </x-slot>
+
+                <x-slot name="content">
+                    <div class="max-w-xl text-sm text-gray-600">
+                        Think twice before deleting a post, this cannot be undone. All data will be erased permanently.
+                    </div>
+
                     <form
                         action="{{ action(\App\Http\Controllers\DeletePostController::class, $post->slug) }}"
                         method="post"
-                        class="flex flex-grow justify-end"
+                        class="mt-5"
                     >
                         @csrf()
-
-                        <x-button color="red">Delete Post</x-button>
+                        <x-jet-danger-button>
+                            Delete Post
+                        </x-jet-danger-button>
                     </form>
-                </div>
-            </div>
+                </x-slot>
+            </x-jet-action-section>
         </div>
     </div>
 

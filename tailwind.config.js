@@ -23,6 +23,7 @@ module.exports = {
             red: colors.red,
             green: colors.green,
             gray: colors.warmGray,
+            blue: colors.indigo,
         },
         extend: {
             fontFamily: {
