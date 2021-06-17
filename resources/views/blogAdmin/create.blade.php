@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-display font-semibold text-xl text-ink leading-tight">
                 New Blog Post
             </h2>
         </div>
@@ -12,37 +12,23 @@
             action="{{ action([\App\Http\Controllers\BlogPostAdminController::class, 'store']) }}"
             method="post"
         >
-            <div class="grid grid-cols-4 gap-4 gap-x-8">
                 @csrf()
 
-                <div class="grid grid-cols-4 col-span-4 gap-x-8 gap-y-4 bg-white shadow rounded p-8">
-                    <div class="col-span-2 flex">
-                        <label class="font-bold mr-2 py-2" for="title">Title</label>
-                        <input class="px-3 py-2 rounded-sm flex-grow" type="text" name="title" id="title" value="{!! $post->title !!}">
-                    </div>
+                <x-fieldset>
+                    <x-label for="title">Title</x-label>
+                    <x-input type="text" name="title" id="title" value="{!! $post->title !!}"/>
 
-                    <div class="col-span-2 flex">
-                        <label class="font-bold mr-2 py-2" for="author">Author</label>
-                        <input class="px-3 py-2 rounded-sm flex-grow" type="text" name="author" id="author" value="{!! $post->author !!}">
-                    </div>
+                    <x-label for="author">Author</x-label>
+                    <x-input type="text" name="author" id="author" value="{!! $post->author !!}"/>
 
-                    <div class="col-span-2 flex">
-                        <label class="font-bold mr-2 py-2" for="date">Date</label>
-                        <input class="px-3 py-2 rounded-sm flex-grow" type="date" name="date" id="date" value="{!! $post->date->format('Y-m-d') !!}">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-4 col-span-4 gap-x-8 bg-white shadow rounded p-8">
-                    <div class="col-span-4 flex">
-                        <label class="font-bold mr-2 py-2" for="body">Body</label>
-                        <textarea class="px-3 py-2 rounded-sm flex-grow" name="body" id="body" rows="20">{{ $post->body }}</textarea>
-                    </div>
-                </div>
-
-                <div class="col-span-4 flex justify-end">
-                    <button type="submit" class="bg-green-500 px-4 py-2 text-white font-bold hover:bg-green-900 shadow rounded">Create</button>
-                </div>
-            </div>
+                    <x-label for="date">Date</x-label>
+                    <x-input type="date" name="date" id="date" value="{!! $post->date->format('Y-m-d') !!}"/>
+            
+                    <x-label class="col-start-1" for="body">Body</x-label>
+                    <x-textarea class="col-span-3" name="body" id="body" rows="20">{{ $post->body }}</x-textarea>
+            
+                    <x-button class="col-start-4 justify-self-end">Create</x-button>
+                </x-fieldset>
         </form>
     </div>
 

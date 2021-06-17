@@ -4,57 +4,82 @@
 @endphp
 
 <x-guest-layout>
-    <div class="prose mx-auto mt-16 mb-32">
-        <h1>My Blog</h1>
+    <article class="max-w-4xl mx-auto px-6 pt-24 pb-16">
+        <header>
+            <h1 class="mb-16 font-display font-medium text-[5rem] lg:text-[8rem] leading-none">My Blog</h1>
+        </header>
 
-        <ul>
-            @foreach($posts as $post)
-                <li>
-                    <a
-                        href="{{ action([\App\Http\Controllers\BlogPostController::class, 'show'], $post->slug) }}"
-                        class="text-lg"
-                    >
-                        {{ $post->date->format('Y-m-d') }} –
-                        <span class="font-bold">{{ $post->title }}</span>
-                    </a>
-                </li>
-            @endforeach
-        </ul>
+        <main class="">
+            <section class="max-w-2xl mx-auto my-16">
+                <h2 class="max-w-2xl mx-auto flex items-center text-sm uppercase tracking-wider font-medium">
+                    <span>Articles on PHP</span>
+                    <span class="-mt-3 mx-2 font-display text-xl">.</span>
+                    <span>Written by staff</span>
+                </h2>
+                <ul class="mt-8 space-y-2">
+                    @foreach($posts as $post)
+                        <li>
+                            <a
+                                href="{{ action([\App\Http\Controllers\BlogPostController::class, 'show'], $post->slug) }}"
+                                class="toc-entry"
+                            >
+                                <h3 class="toc-chapter text-xl font-display font-medium">{{ $post->title }}</h3>
+                                <span class="toc-page">{{ $post->date->format('Y-m-d') }}</span>
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </section>
 
-        <h2>Recents from the community</h2>
+            <section class="my-24">
+                <div class="max-w-2xl mx-auto">
+                    <h2 class="flex items-center text-sm uppercase tracking-wider font-medium">
+                        <span>Suggestions</span>
+                        <span class="-mt-3 mx-2 font-display text-xl">.</span>
+                        <span>By the community</span>
+                    </h2>
 
-        <ul>
-            @foreach($recents as $recent)
-                <li>
-                    <a
-                        href="{{ $recent->url }}"
-                        class="text-lg"
-                    >
-                        {{ $recent->date->format('Y-m-d') }} –
-                        <span class="font-bold">{{ $recent->title }}</span>
-                        <br>
-                        <span class="text-md">{{ $recent->domain }}</span>
-                    </a>
-                </li>
-            @endforeach
-        </ul>
-
-        <div class="bg-green-100 p-8 rounded text-lg mt-4">
-            Do you have another suggestion? Leave a link to an interesting blogpost here:
-
-            <form action="{{ action(\App\Http\Controllers\ExternalPostSuggestionController::class) }}" method="post" class="mt-2 grid grid-cols-4 gap-y-2">
-                @csrf()
-
-                <label for="title" class="font-bold py-1 col-span-1">Title</label>
-                <input type="text" name="title" class="col-span-3">
-
-                <label for="url" class="font-bold py-1 col-span-1">URL</label>
-                <input type="text" name="url" class="col-span-3">
-
-                <div class="col-span-4 flex justify-end">
-                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-800">Suggest!</button>
+                    <ul class="mt-8 space-y-2">
+                        @foreach($recents as $recent)
+                            <li>
+                                <a
+                                    href="{{ $recent->url }}"
+                                    class="toc-entry"
+                                >
+                                    {{ $recent->date->format('Y-m-d') }} –
+                                    <h3 class="toc-chapter text-xl font-display font-medium">{{ $recent->title }}</h3>
+                                    <span class="toc-page">{{ $recent->domain }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
-            </form>
-        </div>
-    </div>
+
+                <aside class="max-w-4xl mx-auto mt-12 bg-opacity-5 bg-ink px-8 py-12">
+                    <div class="max-w-2xl mx-auto">   
+                        <p class="text-xl font-display">
+                            Do you have {{ count($recents) == 0 ? 'a' : 'another' }} suggestion? 
+                            <br>Leave a link to an interesting blogpost for us to review.
+                        </p>
+                        
+                        <form action="{{ action(\App\Http\Controllers\ExternalPostSuggestionController::class) }}" method="post" class="mt-8 grid grid-cols-[auto,1fr] items-center gap-4">
+                            @csrf()
+
+                            <label for="title" class=" text-sm uppercase tracking-wider font-medium">Title</label>
+                            <input type="text" name="title" class="border-0 focus:bg-white focus:ring-ink">
+
+                            <label for="url" class=" text-sm uppercase tracking-wider font-medium">URL</label>
+                            <input type="text" name="url" class="border-0 focus:bg-white focus:ring-ink">
+
+                            <div class="col-start-2">
+                                <x-button>Suggest!</x-button>
+                            </div>
+                        </form>
+                    </div>
+                </aside>
+            </section>
+        </main>
+
+        <x-footer/>
+    </article>
 </x-guest-layout>

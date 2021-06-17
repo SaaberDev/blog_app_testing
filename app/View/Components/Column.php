@@ -10,6 +10,7 @@ class Column extends Component
         public int $colspan = 1,
         public bool $right = false,
         public bool $center = false,
+        public string $class = '',
     )
     {
     }

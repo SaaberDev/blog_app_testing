@@ -21,8 +21,8 @@ class BlogPostStatus extends Enum
     public function color(): string
     {
         return match($this->value) {
-            self::DRAFT()->value => 'red',
-            self::PUBLISHED()->value => 'green',
+            self::DRAFT()->value => 'bg-red-500',
+            self::PUBLISHED()->value => 'bg-green-500',
         };
     }
 }

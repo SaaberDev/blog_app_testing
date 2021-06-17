@@ -1,17 +1,10 @@
-.prose pre {
-    background-color: #f7f7f7;
-    color: #222;
-    margin-left: -25px;
-    padding: 25px 25px;
-}
-
 :root {
-    --color-red: #EA4334;
-    --color-blue: #4285F4;
-    --color-green: #34A853;
-    --color-yellow: #FCBC05;
-    --color-purple: #9d3af6;
-    --color-black: #222;
+    --color-red: #7a321a;
+    --color-blue: #243f8a;
+    --color-green: #117762;
+    --color-yellow: #b88d14;
+    --color-purple: #693399;
+    --color-black: #42332b;
 }
 
 .hljs {
@@ -22,7 +15,7 @@
 
 .hljs-comment,
 .hljs-quote {
-    color: #888888;
+    @apply text-opacity-75;
     font-style: italic;
 }
 
