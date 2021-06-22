@@ -4,6 +4,7 @@ namespace Tests\Feature\Blog;
 
 use App\Models\BlogPost;
 use App\Models\Enums\BlogPostStatus;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -16,37 +17,19 @@ class BlogIndexTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        BlogPost::create([
-            'title' => 'Parallel php',
-            'date' => '2021-01-01',
-            'body' => 'test',
-            'author' => 'Brent',
-            'status' => BlogPostStatus::PUBLISHED(),
-        ]);
+        BlogPost::factory()
+            ->count(3)
+            ->published()
+            ->sequence(
+                ['title' => 'Parallel php', 'date' => '2021-01-01'],
+                ['title' => 'Fibers', 'date' => '2021-01-01'],
+                ['title' => 'Thoughts on event sourcing', 'date' => '2021-02-01']
+            )
+            ->create();
 
-        BlogPost::create([
-            'title' => 'Fibers',
-            'date' => '2021-01-01',
-            'body' => 'test',
-            'author' => 'Brent',
-            'status' => BlogPostStatus::PUBLISHED(),
-        ]);
-
-        BlogPost::create([
-            'title' => 'Thoughts on event sourcing',
-            'date' => '2021-02-01',
-            'body' => 'test',
-            'author' => 'Brent',
-            'status' => BlogPostStatus::PUBLISHED(),
-        ]);
-
-        BlogPost::create([
-            'title' => 'Draft post',
-            'date' => '2021-02-01',
-            'body' => 'test',
-            'author' => 'Brent',
-            'status' => BlogPostStatus::DRAFT(),
-        ]);
+        BlogPost::factory()
+            ->draft()
+            ->create(['title' => 'Draft post', 'date' => '2021-01-01']);
 
         $this
             ->get('/')
@@ -56,7 +39,6 @@ class BlogIndexTest extends TestCase
                 'Thoughts on event sourcing',
                 'Fibers',
             ])
-            ->assertDontSee('Draft post')
-        ;
+            ->assertDontSee('Draft post');
     }
 }

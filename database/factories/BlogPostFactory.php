@@ -21,8 +21,26 @@ class BlogPostFactory extends Factory
                 BlogPostStatus::DRAFT()->value,
                 BlogPostStatus::PUBLISHED()->value,
             ]),
-            'likes' => $this->faker->numberBetween(10, 1000)
+            'likes' => $this->faker->numberBetween(10, 1000),
         ];
+    }
+
+    public function published(): self
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => BlogPostStatus::PUBLISHED(),
+            ];
+        });
+    }
+
+    public function draft(): self
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => BlogPostStatus::DRAFT(),
+            ];
+        });
     }
 
     private function markdown(): string
