@@ -46,7 +46,7 @@
                                     href="{{ $recent->url }}"
                                     class="toc-entry"
                                 >
-                                    {{ $recent->date->format('Y-m-d') }} –
+                                    {{ $recent->date->format('Y-m-d') }}
                                     <h3 class="toc-chapter text-xl font-display font-medium">{{ $recent->title }}</h3>
                                     <span class="toc-page">{{ $recent->domain }}</span>
                                 </a>
@@ -56,12 +56,12 @@
                 </div>
 
                 <aside class="max-w-4xl mx-auto mt-12 bg-opacity-5 bg-ink px-8 py-12">
-                    <div class="max-w-2xl mx-auto">   
+                    <div class="max-w-2xl mx-auto">
                         <p class="text-xl font-display">
-                            Do you have {{ count($recents) == 0 ? 'a' : 'another' }} suggestion? 
+                            Do you have {{ count($recents) == 0 ? 'a' : 'another' }} suggestion?
                             <br>Leave a link to an interesting blogpost for us to review.
                         </p>
-                        
+
                         <form action="{{ action(\App\Http\Controllers\ExternalPostSuggestionController::class) }}" method="post" class="mt-8 grid grid-cols-[auto,1fr] items-center gap-4">
                             @csrf()
 
