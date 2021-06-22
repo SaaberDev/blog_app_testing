@@ -3,8 +3,6 @@
 namespace Tests\Feature\Blog;
 
 use App\Models\BlogPost;
-use App\Models\Enums\BlogPostStatus;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

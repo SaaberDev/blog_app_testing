@@ -29,6 +29,8 @@ class ExternalPostSuggestionController
 
         Mail::to(User::first())->send(new ExternalPostSuggestedMail($title, $url));
 
+        flash('Thanks for your suggestion', 'bg-ink text-white');
+
         return redirect()->action([BlogPostController::class, 'index']);
     }
 }

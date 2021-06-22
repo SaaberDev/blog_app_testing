@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <link rel="preconnect" href="https://fonts.gstatic.com"> 
+        <link rel="preconnect" href="https://fonts.gstatic.com">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -30,7 +30,13 @@
         <meta name="theme-color" content="#ffffff">
     </head>
     <body class="font-sans text-ink bg-paper">
-        
+
+    @if (flash()->message)
+        <div class="{{ flash()->class }} p-4 font-medium">
+            {{ flash()->message }}
+        </div>
+    @endif
+
         {{ $slot }}
 
         @livewireScripts
