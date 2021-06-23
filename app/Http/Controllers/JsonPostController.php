@@ -14,6 +14,6 @@ class JsonPostController
 
     public function show(BlogPost $post)
     {
-        return BlogPostResource::make($post);
+        return BlogPostResource::make($post)->resolve();
     }
 }
