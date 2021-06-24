@@ -2,10 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Enums\ExternalPostStatus;
-use App\Models\ExternalPost;
-use App\Support\Rss\RssEntry;
-use App\Support\Rss\RssRepository;
+use App\Actions\SyncExternalPost;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Spatie\Fork\Fork;
@@ -16,7 +13,7 @@ class SyncExternalPostsCommand extends Command
 
     protected $description = 'Sync external RSS feeds';
 
-    public function handle(RssRepository $rss)
+    public function handle(SyncExternalPost $sync)
     {
         $feeds = config('services.external_feeds');
 
@@ -25,23 +22,11 @@ class SyncExternalPostsCommand extends Command
         Fork::new()
             ->before(child: fn () => DB::connection('mysql')->reconnect())
             ->concurrent(10)
-            ->run(...array_map(function (string $url) use ($rss) {
-                return function () use ($rss, $url) {
+            ->run(...array_map(function (string $url) use ($sync) {
+                return function () use ($sync, $url) {
                     $this->comment("\t- $url");
 
-                    $entries = $rss->fetch($url)
-                        ->sortBy(fn (RssEntry $rss) => $rss->date->getTimestamp());
-
-                    foreach ($entries as $entry) {
-                        ExternalPost::updateOrCreate([
-                            'url' => $entry->url,
-                        ], [
-                            'title' => $entry->title,
-                            'date' => $entry->date,
-                            'domain' => $entry->getDomain(),
-                            'status' => ExternalPostStatus::ACTIVE(),
-                        ]);
-                    }
+                    $sync($url);
                 };
             }, $feeds));
 
