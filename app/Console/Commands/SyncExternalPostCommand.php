@@ -3,10 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Actions\SyncExternalPost;
-use App\Models\Enums\ExternalPostStatus;
-use App\Models\ExternalPost;
-use App\Support\Rss\RssEntry;
-use App\Support\Rss\RssRepository;
 use Illuminate\Console\Command;
 
 class SyncExternalPostCommand extends Command
