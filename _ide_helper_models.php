@@ -101,6 +101,7 @@ namespace App\Models{
  * @property string $to
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\RedirectFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Redirect newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Redirect newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Redirect query()
