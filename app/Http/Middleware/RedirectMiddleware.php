@@ -10,7 +10,7 @@ class RedirectMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $path = parse_url($request->fullUrl())['path'] ?? null;
+        $path = parse_url($request->fullUrl())['path'] ?? '/';
 
         $redirect = Redirect::where('from', $path)->first();
 
