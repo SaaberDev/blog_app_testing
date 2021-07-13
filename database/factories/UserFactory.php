@@ -47,6 +47,24 @@ class UserFactory extends Factory
         });
     }
 
+    public function admin()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_admin' => true,
+            ];
+        });
+    }
+
+    public function guest()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_admin' => false,
+            ];
+        });
+    }
+
     /**
      * Indicate that the user should have a personal team.
      *
