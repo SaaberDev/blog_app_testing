@@ -12,7 +12,8 @@ class DatabaseSeeder extends Seeder
     {
          User::factory(1)->create([
              'name' => 'Brent',
-             'email' => 'brent@spatie.be'
+             'email' => 'brent@spatie.be',
+             'is_admin' => true,
          ]);
 
         $files = scandir(__DIR__ . '/blogPosts');

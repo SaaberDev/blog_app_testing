@@ -10,6 +10,7 @@ use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\DeletePostController;
 use App\Http\Controllers\UploadController;
 use App\Http\Middleware\FormErrorMiddleware;
+use App\Models\BlogPost;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,14 +42,21 @@ Route::middleware(['auth:sanctum', 'verified', FormErrorMiddleware::class])
             return view('dashboard');
         })->name('dashboard');
 
-        Route::get('/blog', [BlogPostAdminController::class, 'index']);
-        Route::get('/blog/new', [BlogPostAdminController::class, 'create']);
-        Route::post('/blog/new', [BlogPostAdminController::class, 'store']);
-        Route::get('/blog/{post}/edit', [BlogPostAdminController::class, 'edit']);
-        Route::post('/blog/{post}/edit', [BlogPostAdminController::class, 'update']);
-        Route::post('/blog/{post}/publish', [BlogPostAdminController::class, 'publish']);
-        Route::post('/blog/{post}/slug', UpdatePostSlugController::class);
-        Route::post('/blog/{post}/delete', DeletePostController::class);
+        Route::prefix('/blog')->group(function () {
+            Route::middleware("can:manage," . BlogPost::class)->group(function () {
+                Route::get('/', [BlogPostAdminController::class, 'index']);
+                Route::get('/new', [BlogPostAdminController::class, 'create']);
+                Route::post('/new', [BlogPostAdminController::class, 'store']);
+            });
+
+            Route::middleware("can:manage,post")->group(function () {
+                Route::get('/{post}/edit', [BlogPostAdminController::class, 'edit']);
+                Route::post('/{post}/edit', [BlogPostAdminController::class, 'update']);
+                Route::post('/{post}/publish', [BlogPostAdminController::class, 'publish']);
+                Route::post('/{post}/slug', UpdatePostSlugController::class);
+                Route::post('/{post}/delete', DeletePostController::class);
+            });
+        });
 
         Route::get('/redirects', [RedirectAdminController::class, 'index']);
 
