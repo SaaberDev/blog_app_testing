@@ -35,6 +35,8 @@ Route::post('/suggest', ExternalPostSuggestionController::class);
 
 Route::post('/upload', UploadController::class);
 
+Route::redirect('/dashboard', '/admin');
+
 Route::middleware(['auth:sanctum', 'verified', FormErrorMiddleware::class])
     ->prefix('/admin')
     ->group(function () {
