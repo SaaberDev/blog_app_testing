@@ -9,7 +9,7 @@ use Spatie\Fork\Fork;
 
 class SyncExternalPostsCommand extends Command
 {
-    protected $signature = 'sync:externals';
+    protected $signature = 'sync:externals {--async}';
 
     protected $description = 'Sync external RSS feeds';
 
@@ -19,6 +19,15 @@ class SyncExternalPostsCommand extends Command
 
         $this->info('Fetching ' . count($feeds) . ' feeds');
 
+        $this->option('async')
+            ? $this->syncAsync($feeds, $sync)
+            : $this->sync($feeds, $sync);
+
+        $this->info('Done');
+    }
+
+    private function syncAsync(array $feeds, SyncExternalPost $sync): void
+    {
         Fork::new()
             ->before(child: fn () => DB::connection('mysql')->reconnect())
             ->concurrent(10)
@@ -29,8 +38,14 @@ class SyncExternalPostsCommand extends Command
                     $sync($url);
                 };
             }, $feeds));
-
-        $this->info('Done');
     }
 
+    private function sync(array $feeds, SyncExternalPost $sync)
+    {
+        foreach ($feeds as $url) {
+            $this->comment("\t- $url");
+
+            $sync($url);
+        }
+    }
 }
