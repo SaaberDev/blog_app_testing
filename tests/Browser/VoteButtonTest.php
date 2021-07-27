@@ -21,19 +21,19 @@ class VoteButtonTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($post) {
             $browser
                 ->visit(action([BlogPostController::class, 'show'], $post->slug))
-                ->with('.vote-button', function (Browser $button) {
+                ->with('@vote-button', function (Browser $button) {
                     $button->assertSee('10');
                 })
 
-                ->click('.vote-button')
+                ->click('@vote-button')
                 ->pause(1000)
-                ->with('.vote-button', function (Browser $button) {
+                ->with('@vote-button', function (Browser $button) {
                     $button->assertSee('11');
                 })
 
-                ->click('.vote-button')
+                ->click('@vote-button')
                 ->pause(1000)
-                ->with('.vote-button', function (Browser $button) {
+                ->with('@vote-button', function (Browser $button) {
                     $button->assertSee('10');
                 })
             ;
@@ -49,9 +49,9 @@ class VoteButtonTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($post) {
             $browser
                 ->visit(action([BlogPostController::class, 'show'], $post->slug))
-                ->click('.vote-button')
+                ->click('@vote-button')
                 ->pause(1000)
-                ->click('.vote-button')
+                ->click('@vote-button')
                 ->pause(1000);
 
             $this->assertEquals(10, $post->refresh()->likes);
