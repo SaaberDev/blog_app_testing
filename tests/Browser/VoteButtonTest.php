@@ -14,6 +14,8 @@ class VoteButtonTest extends DuskTestCase
 
     public function test_vote_button()
     {
+        $this->markTestSkipped();
+
         $post = BlogPost::factory()->create([
             'likes' => 10,
         ]);
@@ -42,6 +44,8 @@ class VoteButtonTest extends DuskTestCase
 
     public function test_vote_toggle()
     {
+        $this->markTestSkipped();
+
         $post = BlogPost::factory()->create([
             'likes' => 10,
         ]);
