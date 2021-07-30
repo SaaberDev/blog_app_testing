@@ -92,7 +92,7 @@ class BlogPostAdminControllerTest extends TestCase
             ->post(action(UpdatePostSlugController::class, [$post->slug]), [
                 'slug' => 'slug-b',
             ])
-            ->assertSuccessful();
+            ->assertRedirect();
 
         $this->assertDatabaseHas(Redirect::class, [
             'from' => '/blog/slug-a',
