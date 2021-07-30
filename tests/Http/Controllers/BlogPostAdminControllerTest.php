@@ -3,7 +3,9 @@
 namespace Tests\Http\Controllers;
 
 use App\Http\Controllers\BlogPostAdminController;
+use App\Http\Controllers\UpdatePostSlugController;
 use App\Models\BlogPost;
+use App\Models\Redirect;
 use Tests\TestCase;
 
 class BlogPostAdminControllerTest extends TestCase
@@ -73,5 +75,30 @@ class BlogPostAdminControllerTest extends TestCase
                 'date' => 'The date does not match the format Y-m-d.'
             ])
         ;
+    }
+
+    /** @test */
+    public function slug_update_creates_redirect()
+    {
+        $this->login();
+
+        $post = BlogPost::factory()->create([
+            'slug' => 'slug-a',
+        ]);
+
+        $this->withoutExceptionHandling();
+
+        $this
+            ->post(action(UpdatePostSlugController::class, [$post->slug]), [
+                'slug' => 'slug-b',
+            ])
+            ->assertSuccessful();
+
+        $this->assertDatabaseHas(Redirect::class, [
+            'from' => '/blog/slug-a',
+            'to' => '/blog/slug-b',
+        ]);
+
+        $this->assertEquals('slug-b', $post->refresh()->slug);
     }
 }
