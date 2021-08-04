@@ -106,4 +106,9 @@ class BlogPost extends Model implements Feedable
             ->where('status', BlogPostStatus::PUBLISHED())
             ->whereDate('date', '<', now()->addDay());
     }
+
+    public function ogImagePath(): string
+    {
+        return storage_path("blog/{$this->slug}.png");
+    }
 }
