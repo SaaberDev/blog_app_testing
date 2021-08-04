@@ -36,15 +36,7 @@ class BlogPost extends Model implements Feedable
         });
 
         self::saved(function (BlogPost $post) {
-            if ($post->wasRecentlyCreated) {
-                dispatch(new CreateOgImageJob($post));
-
-                return;
-            }
-        });
-
-        self::saving(function (BlogPost $post) {
-            if ($post->id && ! $post->originalIsEquivalent('title')) {
+            if ($post->wasRecentlyCreated || $post->wasChanged('title')) {
                 dispatch(new CreateOgImageJob($post));
 
                 return;
