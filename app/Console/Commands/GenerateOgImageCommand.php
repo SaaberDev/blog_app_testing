@@ -16,6 +16,6 @@ class GenerateOgImageCommand extends Command
 
         dispatch(new CreateOgImageJob($post));
 
-        $this->info("Generating in {$post->ogImagePath()}");
+        $this->info($post->ogImageUrl());
     }
 }

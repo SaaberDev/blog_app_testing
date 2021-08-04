@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Browsershot\Browsershot;
 
 class CreateOgImageJob implements ShouldQueue
@@ -21,17 +22,11 @@ class CreateOgImageJob implements ShouldQueue
 
     public function handle()
     {
-        $path = $this->post->ogImagePath();
-
-        $directory = pathinfo($path, PATHINFO_DIRNAME);
-
-        if (! file_exists($directory)) {
-            mkdir($directory);
-        }
-
-        Browsershot::html(view('blog.ogImage', ['post' => $this->post])->render())
-            ->devicePixelRatio(2)
-            ->windowSize(1200, 630)
-            ->save($this->post->ogImagePath());
+        $this->post->saveOgImage(
+            Browsershot::html(view('blog.ogImage', ['post' => $this->post])->render())
+                ->devicePixelRatio(2)
+                ->windowSize(1200, 630)
+                ->screenshot()
+        );
     }
 }
