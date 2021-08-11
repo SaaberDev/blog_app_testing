@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Exceptions\AlreadyPublished;
 use App\Http\Controllers\BlogPostController;
 use App\Jobs\CreateOgImageJob;
 use App\Models\Enums\BlogPostStatus;
@@ -46,6 +47,10 @@ class BlogPost extends Model implements Feedable
 
     public function publish(): self
     {
+        if ($this->status->equals(BlogPostStatus::PUBLISHED())) {
+            throw AlreadyPublished::new();
+        }
+
         $this->update([
             'status' => BlogPostStatus::PUBLISHED(),
         ]);

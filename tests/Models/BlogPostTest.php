@@ -2,6 +2,7 @@
 
 namespace Tests\Models;
 
+use App\Exceptions\AlreadyPublished;
 use App\Models\BlogPost;
 use App\Models\Enums\BlogPostStatus;
 use Carbon\Carbon;
@@ -24,5 +25,15 @@ class BlogPostTest extends TestCase
         $this->travelTo(Carbon::make('2021-06-01'));
 
         $this->assertEquals(1, BlogPost::query()->wherePublished()->count());
+    }
+
+    /** @test */
+    public function an_exception_is_thrown_when_already_published()
+    {
+        $post = BlogPost::factory()->published()->create();
+
+        $this->expectException(AlreadyPublished::class);
+
+        $post->publish();
     }
 }
