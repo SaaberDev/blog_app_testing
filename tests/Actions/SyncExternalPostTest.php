@@ -7,6 +7,7 @@ use App\Models\ExternalPost;
 use App\Support\Rss\RssEntry;
 use App\Support\Rss\RssRepository;
 use Carbon\CarbonImmutable;
+use Illuminate\Support\Facades\Http;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
