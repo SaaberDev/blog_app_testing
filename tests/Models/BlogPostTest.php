@@ -4,6 +4,7 @@ namespace Tests\Models;
 
 use App\Exceptions\AlreadyPublished;
 use App\Models\BlogPost;
+use App\Models\BlogPostLike;
 use App\Models\Enums\BlogPostStatus;
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -35,5 +36,19 @@ class BlogPostTest extends TestCase
         $this->expectException(AlreadyPublished::class);
 
         $post->publish();
+    }
+
+    /** @test */
+    public function test_with_factories()
+    {
+        $post = BlogPost::factory()
+            ->hasBlogPostLikes(3)
+            ->create();
+
+        $like = BlogPostLike::factory()
+            ->for(BlogPost::factory()->published())
+            ->create();
+
+        dd($like->blogPost->isPublished());
     }
 }

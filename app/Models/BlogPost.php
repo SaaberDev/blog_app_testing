@@ -9,6 +9,7 @@ use App\Models\Enums\BlogPostStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\Feed\Feedable;
@@ -43,6 +44,11 @@ class BlogPost extends Model implements Feedable
                 return;
             }
         });
+    }
+
+    public function blogPostLikes(): HasMany
+    {
+        return $this->hasMany(BlogPostLike::class);
     }
 
     public function publish(): self

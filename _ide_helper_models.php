@@ -24,6 +24,8 @@ namespace App\Models{
  * @property \App\Models\Enums\BlogPostStatus $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BlogPostLike[] $blogPostLikes
+ * @property-read int|null $blog_post_likes_count
  * @method static \Database\Factories\BlogPostFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost newQuery()
@@ -52,6 +54,8 @@ namespace App\Models{
  * @property int $blog_post_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\BlogPost $blogPost
+ * @method static \Database\Factories\BlogPostLikeFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPostLike newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPostLike newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPostLike query()
@@ -125,6 +129,7 @@ namespace App\Models{
  * @property string $password
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
+ * @property int $is_admin
  * @property string|null $remember_token
  * @property int|null $current_team_id
  * @property string|null $profile_photo_path
@@ -144,6 +149,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereIsAdmin($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereProfilePhotoPath($value)
