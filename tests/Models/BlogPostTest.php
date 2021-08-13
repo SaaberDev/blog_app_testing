@@ -42,13 +42,15 @@ class BlogPostTest extends TestCase
     public function test_with_factories()
     {
         $post = BlogPost::factory()
-            ->hasBlogPostLikes(3)
+            ->has(BlogPostLike::factory()->count(5), 'postLikes')
             ->create();
 
-        $like = BlogPostLike::factory()
+        $this->assertCount(5, $post->postLikes);
+
+        $postLike = BlogPostLike::factory()
             ->for(BlogPost::factory()->published())
             ->create();
 
-        dd($like->blogPost->isPublished());
+        $this->assertTrue($postLike->blogPost->isPublished());
     }
 }
