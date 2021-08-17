@@ -39,11 +39,11 @@ class CreateOgImageJobTest extends TestCase
     public function file_is_generated_correctly()
     {
         if ($this->app->environment('ci')) {
-            $this->markTestSkipped();
+            $this->markTestSkipped("Browsershot not enabled");
 
             return;
         }
-        
+
         Bus::swap(app(Dispatcher::class));
 
         Storage::fake('public');
