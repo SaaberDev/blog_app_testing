@@ -10,7 +10,6 @@ In one of the first videos, we'll show how to add a tests to makes sure that the
 
 - [Brent Roose](https://github.com/brendt)
 - [Freek Van der Herten](https://github.com/freekmurze)
-
 - [All Contributors](../../contributors)
 
 ## License
