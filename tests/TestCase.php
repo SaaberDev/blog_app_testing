@@ -22,14 +22,14 @@ abstract class TestCase extends BaseTestCase
 //        Bus::fake([CreateOgImageJob::class]);
 //    }
 //
-//    public function login(User $user = null): User
-//    {
-//        $user ??= User::factory()->create();
-//
-//        $this->actingAs($user);
-//
-//        return $user;
-//    }
+    public function login(User $user = null): User
+    {
+        $user ??= User::factory()->create();
+
+        $this->actingAs($user);
+
+        return $user;
+    }
 //
 //    public function createRequest($method, $uri): Request
 //    {

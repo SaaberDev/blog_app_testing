@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class ExternalPostSuggestionTest extends TestCase
 {
-    public $data = [
+    private $data = [
         'title' => 'Splitting a large Laravel Livewire Component',
         'url' => 'https://dev.to/chrisrhymes/splitting-a-large-laravel-livewire-component-569l',
     ];
