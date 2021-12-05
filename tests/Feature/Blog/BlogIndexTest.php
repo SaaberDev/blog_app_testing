@@ -35,6 +35,7 @@ class BlogIndexTest extends TestCase
 
         $this->get('/')
             ->assertStatus(200)
+            ->assertSuccessful()
             ->assertSee('Parallel php')
             ->assertDontSee('Draft')
             ->assertSeeInOrder(

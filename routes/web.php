@@ -27,13 +27,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::feeds();
 
-Route::get('/', [BlogPostController::class, 'index']);
+Route::get('/', [BlogPostController::class, 'index'])->name('guest.blog.index');
 Route::get('/blog/{post}.json', [JsonPostController::class, 'show']);
 Route::get('/blog.json', [JsonPostController::class, 'index']);
-Route::get('/blog/{post}', [BlogPostController::class, 'show']);
+Route::get('/blog/{post}', [BlogPostController::class, 'show'])->name('guest.blog.show');
 Route::get('/blog/{post}/og', BlogPostOgImageController::class);
 
-Route::post('/suggest', ExternalPostSuggestionController::class);
+Route::post('/suggest', ExternalPostSuggestionController::class)->name('guest.blog.suggest');
 
 Route::post('/upload', UploadController::class);
 
