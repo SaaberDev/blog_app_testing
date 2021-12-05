@@ -15,29 +15,29 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Bus::fake([CreateOgImageJob::class]);
-    }
-
-    public function login(User $user = null): User
-    {
-        $user ??= User::factory()->create();
-
-        $this->actingAs($user);
-
-        return $user;
-    }
-
-    public function createRequest($method, $uri): Request
-    {
-        $symfonyRequest = SymfonyRequest::create(
-            $uri,
-            $method,
-        );
-
-        return Request::createFromBase($symfonyRequest);
-    }
+//    protected function setUp(): void
+//    {
+//        parent::setUp();
+//
+//        Bus::fake([CreateOgImageJob::class]);
+//    }
+//
+//    public function login(User $user = null): User
+//    {
+//        $user ??= User::factory()->create();
+//
+//        $this->actingAs($user);
+//
+//        return $user;
+//    }
+//
+//    public function createRequest($method, $uri): Request
+//    {
+//        $symfonyRequest = SymfonyRequest::create(
+//            $uri,
+//            $method,
+//        );
+//
+//        return Request::createFromBase($symfonyRequest);
+//    }
 }
