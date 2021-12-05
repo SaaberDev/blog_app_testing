@@ -4,11 +4,8 @@ namespace Tests\Feature\Blog;
 
 use App\Http\Controllers\ExternalPostSuggestionController;
 use App\Mail\ExternalPostSuggestedMail;
-use App\Models\BlogPost;
 use App\Models\ExternalPost;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ExternalPostSuggestionTest extends TestCase
