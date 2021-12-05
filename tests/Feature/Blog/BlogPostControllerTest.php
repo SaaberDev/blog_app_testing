@@ -5,7 +5,7 @@ namespace Tests\Feature\Blog;
 use App\Models\BlogPost;
 use Tests\TestCase;
 
-class BlogIndexTest extends TestCase
+class BlogPostControllerTest extends TestCase
 {
     /** @test */
     public function index_shows_a_list_of_blog_posts()
