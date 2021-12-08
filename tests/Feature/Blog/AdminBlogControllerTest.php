@@ -32,7 +32,6 @@ class AdminBlogControllerTest extends TestCase
      */
     public function user_can_post_if_authenticated()
     {
-        $this->withoutExceptionHandling();
         // login
         $this->login();
         $post = BlogPost::factory()->make();
