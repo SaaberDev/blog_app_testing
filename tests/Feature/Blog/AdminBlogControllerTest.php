@@ -11,37 +11,39 @@ class AdminBlogControllerTest extends TestCase
     /**
      * @test
      */
-    public function cannot_post_blog_when_user_is_unauthenticated()
+    public function cannot_post_blog_when_user_is_unauthenticated_and_will_be_redirected_to_login_screen()
     {
-        $this->withoutExceptionHandling();
-
         // blog post fake collection
-        $blog = $this->blogData();
+        $post = BlogPost::factory()->make();
 
         // if unauthenticated redirect to login page
-        $this->post(action([BlogPostAdminController::class, 'store']), $blog)
+        $this->post(action([BlogPostAdminController::class, 'store']), [
+            'title' => $post->title,
+            'author' => $post->title,
+            'body' => $post->title,
+            'date' => $post->date->format('Y-m-d'),
+        ])
             ->assertRedirect(route('login'))
         ;
-
-        // login
-//        $this->login();
-//
-//        // post if authenticated and redirect to login page
-//        $this->post(action([BlogPostAdminController::class, 'store']), $blog);
-//
-//        // test database
-//        $this->assertDatabaseHas(BlogPost::class, $blog);
     }
 
     /**
-     * @return array
+     * @test
      */
-    private function blogData(): array
+    public function user_can_post_if_authenticated()
     {
-        return BlogPost::factory()
-            ->published()
-            ->sequence(['title' => 'New Published Post', 'date' => '2021-03-20'])
-            ->make()
-            ->toArray();
+        $this->withoutExceptionHandling();
+        // login
+        $this->login();
+        $post = BlogPost::factory()->make();
+
+        // post if authenticated and redirect to login page
+        $this->post(action([BlogPostAdminController::class, 'store']), [
+            'title' => $post->title,
+            'author' => $post->title,
+            'body' => $post->title,
+            'date' => $post->date->format('Y-m-d'),
+        ])
+            ->assertStatus(302);
     }
 }

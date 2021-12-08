@@ -54,7 +54,7 @@ Route::middleware(['auth:sanctum', 'verified', FormErrorMiddleware::class])
             });
 
             Route::middleware("can:manage,post")->group(function () {
-                Route::get('/{post}/edit', [BlogPostAdminController::class, 'edit']);
+                Route::get('/{post}/edit', [BlogPostAdminController::class, 'edit'])->name('admin.blog.edit');
                 Route::post('/{post}/edit', [BlogPostAdminController::class, 'update']);
                 Route::post('/{post}/publish', [BlogPostAdminController::class, 'publish']);
                 Route::post('/{post}/delete', DeletePostController::class);
