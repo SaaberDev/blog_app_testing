@@ -4,6 +4,7 @@ namespace Tests\Feature\Blog;
 
 use App\Http\Controllers\BlogPostAdminController;
 use App\Models\BlogPost;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class AdminBlogControllerTest extends TestCase
@@ -32,6 +33,7 @@ class AdminBlogControllerTest extends TestCase
      */
     public function user_can_post_if_authenticated()
     {
+        $this->withoutExceptionHandling();
         // login
         $this->login();
         $post = BlogPost::factory()->make();
@@ -43,6 +45,8 @@ class AdminBlogControllerTest extends TestCase
             'body' => $post->title,
             'date' => $post->date->format('Y-m-d'),
         ])
-            ->assertStatus(302);
+            ->assertRedirect(action([BlogPostAdminController::class, 'edit'],  ['post' => Str::slug($post->title)]))
+            ->assertSessionHas('flash.banner')
+        ;
     }
 }
