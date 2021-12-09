@@ -7,7 +7,9 @@ use Tests\TestCase;
 
 class BlogPostControllerTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     */
     public function index_shows_a_list_of_blog_posts()
     {
         $this->withoutExceptionHandling();
